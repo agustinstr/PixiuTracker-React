@@ -41,7 +41,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
 	const [password, setpassword] = useState("")
 	useEffect(() => {
-		
+		if (localStorage.getItem('token') !== null) {
+		  window.location.replace('http://localhost:3000/dashboard');
+		} 
 	  }, []);
 
 	const history = useHistory();
