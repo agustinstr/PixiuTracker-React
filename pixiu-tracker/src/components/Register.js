@@ -41,9 +41,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
 	const [password, setpassword] = useState("")
 	useEffect(() => {
-		if (localStorage.getItem('token') !== null) {
-		  window.location.replace('http://localhost:3000/dashboard');
-		} 
+		
 	  }, []);
 
 	const history = useHistory();
@@ -70,7 +68,7 @@ export default function SignUp() {
 		console.log(formData);
 
 		axiosInstance
-			.post('v1/users/auth/register/', {
+			.post('user/register/', {
 				email: formData.email,
 				password1: password,
 				password2: formData.password,
