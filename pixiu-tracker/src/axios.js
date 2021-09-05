@@ -1,14 +1,16 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const baseURL = 'https://localhost:5001/api/';
 
 
 const axiosInstance = axios.create({
 	baseURL: baseURL,
-	timeout: 5000,
+	timeout: 30000,
+    withCredentials: true,
 	headers: {
-		Authorization: localStorage.getItem('token')
-        ? 'Token ' + localStorage.getItem('token')
+		Authorization: Cookies.get('jwt') != null
+        ? 'Bearer ' + Cookies.get('jwt')
         : null,
 		'Content-Type': 'application/json',
 		accept: 'application/json',

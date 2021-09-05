@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Logout from './components/Logout';
 import Dashboard from './components/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const App = () => (
 	<Router>
@@ -17,7 +18,7 @@ const App = () => (
 				<Route path='/login' component={Login} exact />
         <Route path='/register' component={Register} exact />
 				<Route path='/logout' component={Logout} exact />
-				<Route exact path='/' component={Dashboard} exact />			
+				<ProtectedRoute exact path='/' component={Dashboard} />
       </Switch>
 			<Footer />
 		</React.StrictMode>

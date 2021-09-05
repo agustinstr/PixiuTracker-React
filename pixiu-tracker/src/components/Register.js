@@ -15,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Cookies from 'js-cookie';
 
 
 
@@ -38,52 +39,51 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignUp() {
+const  SignUp = () => {
 	const [password, setpassword] = useState("")
+	const [email, setemail] = useState("")
+	const [username, setusername] = useState("")
+	const [apiKey, setapikey] = useState("")
+	const [apiSecret, setapisecret] = useState("")
+
 	useEffect(() => {
-		if (localStorage.getItem('token') !== null) {
-		  window.location.replace('http://localhost:3000/dashboard');
+		if (Cookies.get('jwt') !== "") {
+		  history.push('/');
 		} 
 	  }, []);
 
 	const history = useHistory();
-	const initialFormData = Object.freeze({
-		email: '',
-		password1: '',
-		password2: '',
-		api_key: '',
-		api_secret: '',
-	});
-
-	const [formData, updateFormData] = useState(initialFormData);
-
-	const handleChange = (e) => {
-		updateFormData({
-			...formData,
-			// Trimming any whitespace
-			[e.target.name]: e.target.value.trim(),
-		});
-	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(formData);
+
+		const asd = {
+			Email:email,
+			Password: password,
+			Username: username,
+			ApiSecret: apiKey,
+			ApiKey: apiSecret
+		};
+
+		console.log (asd);
 
 		axiosInstance
 			.post('user/register/', {
-				email: formData.email,
-				password1: password,
-				password2: formData.password,
-				api_key: formData.api_key,
-				api_secret: formData.api_key,
+				Email:email,
+    			Password: password,
+   				Username: username,
+    			ApiSecret: apiKey,
+    			ApiKey: apiSecret
 			})
 			.then((res) => {
-				localStorage.clear();
-				localStorage.setItem('token', res.data.key);
+				//localStorage.clear();
 				history.push('/dashboard');
 				console.log(res);
 				console.log(res.data);
-			});
+			})
+			.catch((e) => {
+				console.log("Error custom " + e); //for debugging purposes
+			})
 	};
 
 	const classes = useStyles();
@@ -96,7 +96,7 @@ export default function SignUp() {
 				<Typography component="h1" variant="h5">
 					Sign up
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form onSubmit = {handleSubmit} noValidate>
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
 							<TextField
@@ -107,7 +107,7 @@ export default function SignUp() {
 								label="Email Address"
 								name="email"
 								autoComplete="email"
-								onChange={handleChange}
+								onChange={(e) => setemail(e.target.value)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -115,11 +115,10 @@ export default function SignUp() {
 								variant="outlined"
 								required
 								fullWidth
-								id="username"
 								label="Username"
 								name="username"
 								autoComplete="username"
-								onChange={handleChange}
+								onChange={(e) => setusername(e.target.value)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -130,9 +129,8 @@ export default function SignUp() {
 								name="password"
 								label="Password"
 								type="password"
-								id="password"
 								autoComplete="current-password"
-								onChange={(e) => setpassword(e)}
+								onChange={(e) => setpassword(e.target.value)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -140,11 +138,11 @@ export default function SignUp() {
 								variant="outlined"
 								required
 								fullWidth
-								id="api_key"
+								id="apiKey"
 								label="Binance Api Key"
-								name="api_key"
+								name="apiKey"
 								autoComplete="api_key"
-								onChange={handleChange}
+								onChange={(e) => setapikey(e.target.value)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -156,7 +154,7 @@ export default function SignUp() {
 								label="Api Secret"
 								name="api_secret"
 								autoComplete="api_secret"
-								onChange={handleChange}
+								onChange={(e) => setapisecret(e.target.value)}
 							/>
 						</Grid>
 					</Grid>
@@ -182,3 +180,5 @@ export default function SignUp() {
 		</Container>
 	);
 }
+
+export default SignUp;

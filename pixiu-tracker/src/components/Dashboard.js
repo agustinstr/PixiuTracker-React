@@ -22,8 +22,8 @@ import { mainListItems, secondaryListItems } from './ListItems';
 import Chart from './Chart';
 import Balance from './Balance';
 import Coins from './Coins';
-
-
+import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -119,11 +119,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
-  useEffect(() => {
-    if (localStorage.getItem('token') === null) {
-      window.location.replace('http://localhost:3000/login');
-    }
-  }, []);
+  const history = useHistory();
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);

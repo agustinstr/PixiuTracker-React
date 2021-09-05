@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Cookies from 'js-cookie';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -34,15 +35,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignIn() {
+const SignIn = () => {
+	const history = useHistory();
 
 	useEffect(() => {
-		if (localStorage.getItem('token') !== null) {
-		  window.location.replace('http://localhost:3000/dashboard');
-		} 
+		console.log(Cookies.get('jwt'))
+		if (Cookies.get('jwt') !== "") {
+			history.push('/');
+		  } 
 	  }, []);
 
-	const history = useHistory();
 	const initialFormData = Object.freeze({
 		email: '',
 		password: '',
@@ -62,18 +64,16 @@ export default function SignIn() {
 		console.log(formData);
 
 		axiosInstance
-			.post('v1/users/auth/login/', {
+			.post('user/login', {
 				email: formData.email,
 				password: formData.password,
 			})
 			.then((res) => {
-				localStorage.setItem('token', res.data.key);
-				axiosInstance.defaults.headers['Authorization'] =
-					'Token ' + localStorage.getItem('token');
-				history.push('/dashboard');
-				//console.log(res);
-				//console.log(res.data);
-			});
+				history.push('/');
+			})
+			.catch((e) =>
+				console.log("Alla tiene problemas" + e)
+			);
 	};
 
 	const classes = useStyles();
@@ -142,3 +142,5 @@ export default function SignIn() {
 		</Container>
 	);
 }
+
+export default SignIn
