@@ -1,33 +1,26 @@
-import React, {  useState ,useEffect } from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
+import List from '@material-ui/core/List';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './ListItems';
-import Chart from './Chart';
-import Balance from './Balance';
-import Coins from './Coins';
-import Cookies from 'js-cookie';
+import MenuIcon from '@material-ui/icons/Menu';
+import clsx from 'clsx';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import EnhancedTable from './EnhancedTable';
 import axiosInstance from '../axios';
+import Balance from './Balance';
+import EnhancedTable from './EnhancedTable';
+import Header from './Header';
 import CustomPieChart from './PieChart';
-
+import MainListItems from './MainListItems';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -124,11 +117,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 300,
+    height: 340,
   },
 }));
 
-export default function Dashboard() {
+export default function TotalBalances() {
   const [usercoins, setusercoins] = useState([])
   const [totalBalance, settotalBalance] = useState(0)
   const [piechartData, setpiechartData] = useState([])
@@ -153,7 +146,7 @@ export default function Dashboard() {
         setpiechartData(res.data.map((i) => { return {"name": i.name, "value": i.value}}))
     })
     .catch((e) =>
-        console.log("Alla tiene problemas" + e)
+        console.log("Alla tiene problemas  dsa" + e)
     );
   }, [])
 
@@ -169,8 +162,12 @@ export default function Dashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
+    <React.Fragment>
+    <Header/>
     <div className={classes.root}>
+      
       <CssBaseline />
+      
       <Drawer
         variant="permanent"
         classes={{
@@ -196,42 +193,13 @@ export default function Dashboard() {
         </IconButton>  
         </div>
         <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        <List>
+          <MainListItems/>
+        </List>
       </Drawer>
       
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <CustomPieChart  data={piechartData}/>
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Balance balance ={totalBalance}/>
-              </Paper>
-            </Grid>
-            {/* Coins */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <EnhancedTable
-                headers ={portfolioHeaders}
-                products ={usercoins}
-                clickOnCell={ () => null} />
-              </Paper>
-            </Grid>
-          </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
+      <div>hola</div>
     </div>
+    </React.Fragment>
   );
 }

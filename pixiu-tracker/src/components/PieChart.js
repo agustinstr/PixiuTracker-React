@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import { PieChart, Pie, Sector, ResponsiveContainer } from 'recharts';
+import { Pie, PieChart, ResponsiveContainer, Sector } from 'recharts';
 import Title from './Title';
-
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;

@@ -8,7 +8,6 @@ const LogOut = () => {
 	useEffect(() => {
 		const response = axiosInstance.post('user/logout', {});
 		localStorage.setItem('isLogged', 'false');
-		//axiosInstance.defaults.headers['Authorization'] = null;
 		history.push('/login');
 	});
 	return <div>Logout</div>;

@@ -1,6 +1,6 @@
-import React, {  useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { useHistory, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Route, useHistory } from 'react-router-dom';
 
 const ProtectedRoute = ({component: Component, ...restOfprops}) => {
     const history = useHistory();
