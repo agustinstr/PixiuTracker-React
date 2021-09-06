@@ -146,7 +146,7 @@ export default function Dashboard() {
         setpiechartData(res.data.map((i) => { return {"name": i.name, "value": i.value}}))
     })
     .catch((e) =>
-        console.log("Alla tiene problemas  dsa" + e)
+        console.log("There was a problem" + e)
     );
   }, [])
 

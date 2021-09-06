@@ -72,7 +72,7 @@ const SignIn = () => {
 				history.push('/');
 			})
 			.catch((e) =>
-				console.log("Alla tiene problemas" + e)
+				console.log("There was a problem" + e)
 			);
 	};
 

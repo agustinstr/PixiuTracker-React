@@ -21,6 +21,7 @@ import EnhancedTable from './EnhancedTable';
 import Header from './Header';
 import CustomPieChart from './PieChart';
 import MainListItems from './MainListItems';
+import TreeChart from './TreeCharts';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -124,7 +125,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TotalBalances() {
   const [usercoins, setusercoins] = useState([])
   const [totalBalance, settotalBalance] = useState(0)
-  const [piechartData, setpiechartData] = useState([])
+  const [treeChartData, setTreeChartData] = useState([])
  
   const history = useHistory();
   const classes = useStyles();
@@ -140,13 +141,12 @@ export default function TotalBalances() {
 
   useEffect(() => {
     axiosInstance
-    .get('user/portfolio', {})
+    .get('user/general-balance', {})
     .then((res) => {
-        setusercoins(res.data)
-        setpiechartData(res.data.map((i) => { return {"name": i.name, "value": i.value}}))
+        setTreeChartData(res.data.map((i) => { return {"name": i.name, "size": i.value}}))
     })
     .catch((e) =>
-        console.log("Alla tiene problemas  dsa" + e)
+        console.log("There was a problem" + e)
     );
   }, [])
 
@@ -198,7 +198,21 @@ export default function TotalBalances() {
         </List>
       </Drawer>
       
-      <div>hola</div>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper}>
+                <TreeChart data = {treeChartData}/>
+              </Paper>
+            </Grid>
+          </Grid>
+          <Box pt={4}>
+            <Copyright />
+          </Box>
+        </Container>
+      </main>
     </div>
     </React.Fragment>
   );

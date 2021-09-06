@@ -64,7 +64,7 @@ export default class CustomPieChart extends PureComponent {
   render() {
     return (
     <React.Fragment>
-      <Title>Balance Chart</Title>
+      <Title>Portfolio Information</Title>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart width={400} height={400}>
           <Pie
