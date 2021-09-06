@@ -13,14 +13,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 const App = () => (
 	<Router>
 		<React.StrictMode>
-			<Header />
 			<Switch>
 				<Route path='/login' component={Login} exact />
         <Route path='/register' component={Register} exact />
 				<Route path='/logout' component={Logout} exact />
 				<ProtectedRoute exact path='/' component={Dashboard} />
       </Switch>
-			<Footer />
 		</React.StrictMode>
 	</Router>
 );

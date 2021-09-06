@@ -57,23 +57,13 @@ const  SignUp = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		const asd = {
-			Email:email,
-			Password: password,
-			Username: username,
-			ApiSecret: apiKey,
-			ApiKey: apiSecret
-		};
-
-		console.log (asd);
-
 		axiosInstance
 			.post('user/register/', {
 				Email:email,
     			Password: password,
    				Username: username,
-    			ApiSecret: apiKey,
-    			ApiKey: apiSecret
+    			ApiSecret: apiSecret,
+    			ApiKey: apiKey
 			})
 			.then((res) => {
 				//localStorage.clear();

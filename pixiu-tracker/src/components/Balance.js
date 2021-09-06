@@ -14,16 +14,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Balance() {
+export default function Balance({balance}) {
   const classes = useStyles();
   return (
     <React.Fragment>
       <Title>Total Balance</Title>
       <Typography component="p" variant="h4">
-        $3,024.00
+        $ {balance}
       </Typography>
       <Typography color="textSecondary" className={classes.balanceContext}>
-        on 15 March, 2019
+        on {new Date().toDateString()}
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -20,12 +20,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const isLoggedIn = localStorage.getItem('token') !== null;
-
 
 function Header() {
 	const classes = useStyles();
-	//isLoggedIn = localStorage.getItem('token') === null;
+	let isLogged = (localStorage.getItem('isLogged')=== 'true');
+	console.log(isLogged);
+
+	window.addEventListener('storage', () => {
+		// When local storage changes, dump the list to
+		// the console.
+		console.log(window.localStorage.getItem('loggedIn'));
+	  });
+
 	return (
 		<React.Fragment>
 			<CssBaseline />
@@ -51,27 +57,6 @@ function Header() {
 							PixiuTracker
 						</Link>
 					</Typography>
-					{<nav>
-						<Link
-							color="textPrimary"
-							href="#"
-							className={classes.link}
-							component={NavLink}
-							to="/register"
-						>
-							Sign Up
-						</Link>
-					</nav>}
-					<Button
-						href="#"
-						color="primary"
-						variant="outlined"
-						className={classes.link}
-						component={NavLink}
-						to="/login"
-					>
-					Login
-					</Button>
 					<Button
 						href="#"
 						color="primary"

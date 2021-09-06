@@ -27,7 +27,6 @@ import { useHistory } from 'react-router-dom';
 import EnhancedTable from './EnhancedTable';
 import axiosInstance from '../axios';
 import CustomPieChart from './PieChart';
-import Header from './Header';
 
 function Copyright() {
   return (
@@ -125,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 340,
+    height: 300,
   },
 }));
 
@@ -170,12 +169,8 @@ export default function Dashboard() {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
-    <React.Fragment>
-    <Header/>
     <div className={classes.root}>
-      
       <CssBaseline />
-      
       <Drawer
         variant="permanent"
         classes={{
@@ -238,6 +233,5 @@ export default function Dashboard() {
         </Container>
       </main>
     </div>
-    </React.Fragment>
   );
 }
