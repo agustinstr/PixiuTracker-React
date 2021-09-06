@@ -18,7 +18,7 @@ const App = () => (
 				<Route path='/logout' component={Logout} exact />
 				<ProtectedRoute exact path='/balances' component={TotalBalances} />
 				<ProtectedRoute exact path='/' component={Dashboard} />
-      </Switch>
+      		</Switch>
 		</React.StrictMode>
 	</Router>
 );

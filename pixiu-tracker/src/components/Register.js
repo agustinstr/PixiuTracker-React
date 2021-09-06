@@ -39,6 +39,7 @@ const  SignUp = () => {
 	const [username, setusername] = useState("")
 	const [apiKey, setapikey] = useState("")
 	const [apiSecret, setapisecret] = useState("")
+	const [showBalance, setshowBalance] = useState(false)
 
 	useEffect(() => {
 		if (Cookies.get('jwt') !== "") {
@@ -50,7 +51,7 @@ const  SignUp = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-
+		setshowBalance(false);
 		axiosInstance
 			.post('user/register/', {
 				Email:email,
@@ -61,12 +62,12 @@ const  SignUp = () => {
 			})
 			.then((res) => {
 				//localStorage.clear();
-				history.push('/dashboard');
+				history.push('/login');
 				console.log(res);
 				console.log(res.data);
 			})
 			.catch((e) => {
-				console.log("Error custom " + e); //for debugging purposes
+				setshowBalance(true); //for debugging purposes
 			})
 	};
 
@@ -77,6 +78,7 @@ const  SignUp = () => {
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}></Avatar>
+				
 				<Typography component="h1" variant="h5">
 					Sign up
 				</Typography>
@@ -160,6 +162,11 @@ const  SignUp = () => {
 						</Grid>
 					</Grid>
 				</form>
+				{ showBalance &&
+				<Typography component="h1" variant="h5">
+					You must provide valid Binance Credentials
+				</Typography>
+				}
 			</div>
 		</Container>
 	);

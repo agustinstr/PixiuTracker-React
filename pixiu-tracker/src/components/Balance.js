@@ -14,20 +14,27 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Balance({balance}) {
+export default function Balance({balance, showBalance, handleBalance}) {
   const classes = useStyles();
   return (
     <React.Fragment>
       <Title>Total Balance</Title>
-      <Typography component="p" variant="h4">
-        $ {balance}
-      </Typography>
+      {!showBalance && 
+        <Typography component="p" variant="h4">
+          $ ******,**
+        </Typography>
+      }
+      {showBalance && 
+        <Typography component="p" variant="h4">
+          $ {balance}
+        </Typography>
+      }
       <Typography color="textSecondary" className={classes.balanceContext}>
-        on {new Date().toDateString()}
+        {new Date().toDateString()}
       </Typography>
       <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+        <Link color="primary"  onClick={handleBalance}>
+          View Balance and Spot Coins
         </Link>
       </div>
     </React.Fragment>

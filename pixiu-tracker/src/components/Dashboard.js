@@ -125,6 +125,7 @@ export default function Dashboard() {
   const [usercoins, setusercoins] = useState([])
   const [totalBalance, settotalBalance] = useState(0)
   const [piechartData, setpiechartData] = useState([])
+  const [showBalance, setshowBalance] = useState(false)
  
   const history = useHistory();
   const classes = useStyles();
@@ -211,18 +212,20 @@ export default function Dashboard() {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Balance balance ={totalBalance}/>
+                <Balance balance ={totalBalance} showBalance={showBalance} handleBalance={() => setshowBalance(!showBalance)}/>
               </Paper>
             </Grid>
             {/* Coins */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <EnhancedTable
-                headers ={portfolioHeaders}
-                products ={usercoins}
-                clickOnCell={ () => null} />
-              </Paper>
-            </Grid>
+            {showBalance && 
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>
+                  <EnhancedTable
+                  headers ={portfolioHeaders}
+                  products ={usercoins}
+                  clickOnCell={ () => null} />
+                </Paper>
+              </Grid>
+            }
           </Grid>
           <Box pt={4}>
             <Copyright />
