@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Cookies from 'js-cookie';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = () => {
 	const history = useHistory();
+	const [wrongPassword, setsWrongPassword] = useState(false)
 
 	useEffect(() => {
 		console.log(Cookies.get('jwt'))
@@ -61,7 +63,7 @@ const SignIn = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(formData);
+		setsWrongPassword(false);
 
 		axiosInstance
 			.post('user/login', {
@@ -72,7 +74,7 @@ const SignIn = () => {
 				history.push('/');
 			})
 			.catch((e) =>
-				console.log("There was a problem" + e)
+				setsWrongPassword(true)
 			);
 	};
 
@@ -129,6 +131,10 @@ const SignIn = () => {
 						</Grid>
 					</Grid>
 				</form>
+				<br/>
+				{ wrongPassword &&
+					<Alert  variant="outlined" severity="error">Incorrect email address or password.</Alert>
+				}
 			</div>
 		</Container>
 	);

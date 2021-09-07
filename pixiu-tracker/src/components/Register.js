@@ -12,6 +12,7 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axiosInstance from '../axios';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -39,7 +40,7 @@ const  SignUp = () => {
 	const [username, setusername] = useState("")
 	const [apiKey, setapikey] = useState("")
 	const [apiSecret, setapisecret] = useState("")
-	const [showBalance, setshowBalance] = useState(false)
+	const [invalidApiCreds, setInvalidApiCreds] = useState(false)
 
 	useEffect(() => {
 		if (Cookies.get('jwt') !== "") {
@@ -51,7 +52,7 @@ const  SignUp = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setshowBalance(false);
+		setInvalidApiCreds(false);
 		axiosInstance
 			.post('user/register/', {
 				Email:email,
@@ -67,7 +68,7 @@ const  SignUp = () => {
 				console.log(res.data);
 			})
 			.catch((e) => {
-				setshowBalance(true); //for debugging purposes
+				setInvalidApiCreds(true); 
 			})
 	};
 
@@ -137,7 +138,7 @@ const  SignUp = () => {
 								required
 								fullWidth
 								id="api_secret"
-								label="Api Secret"
+								label="Binance Api Secret"
 								name="api_secret"
 								autoComplete="api_secret"
 								onChange={(e) => setapisecret(e.target.value)}
@@ -157,15 +158,14 @@ const  SignUp = () => {
 					<Grid container justify="flex-end">
 						<Grid item>
 							<Link href="/login" variant="body2">
-								Already have an account? Login
+								Already have an account? Sign In
 							</Link>
 						</Grid>
 					</Grid>
 				</form>
-				{ showBalance &&
-				<Typography component="h1" variant="h5">
-					You must provide valid Binance Credentials
-				</Typography>
+				<br/>
+				{ invalidApiCreds &&
+				<Alert  variant="outlined" severity="error">Please verify your Biannce Api Key and Api Secret.</Alert>
 				}
 			</div>
 		</Container>
