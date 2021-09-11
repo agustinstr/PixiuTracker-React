@@ -6,6 +6,7 @@ import Logout from './components/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Register from './components/Register';
 import TotalBalances from './components/TotalBalances';
+import PriceFluctuation from './components/PriceFluctuation';
 import './index.css';
 
 
@@ -17,6 +18,7 @@ const App = () => (
         		<Route path='/register' component={Register} exact />
 				<Route path='/logout' component={Logout} exact />
 				<ProtectedRoute exact path='/balances' component={TotalBalances} />
+				<ProtectedRoute exact path='/prices' component={PriceFluctuation} />
 				<ProtectedRoute exact path='/' component={Dashboard} />
       		</Switch>
 		</React.StrictMode>

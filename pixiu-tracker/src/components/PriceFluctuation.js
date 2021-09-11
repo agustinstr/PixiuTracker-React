@@ -14,13 +14,12 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axiosInstance from '../axios';
-import Balance from './Balance';
-import EnhancedTable from './EnhancedTable';
+import CoinChart from './CoinChart';
 import Header from './Header';
-import CustomPieChart from './PieChart';
 import MainListItems from './MainListItems';
+
+
 
 function Copyright() {
   return (
@@ -34,13 +33,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-const portfolioHeaders = [
-    { id: "name",numeric: false,disablePadding: true,label: "Name"},
-    { id: "amount",numeric: false,disablePadding: true,label: "Amount"},
-    { id: "price", numeric: false, disablePadding: false, label: "Price" },
-    { id: "value", numeric: true, disablePadding: false, label: "Value" },
-    ];
 
 const drawerWidth = 240;
 
@@ -122,13 +114,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
-  const [usercoins, setusercoins] = useState([])
-  const [totalBalance, settotalBalance] = useState(0)
-  const [piechartData, setpiechartData] = useState([])
-  const [showBalance, setshowBalance] = useState(false)
+export default function TotalBalances() {
+  const [coinChartData, setCoinChartData] = useState([])
  
-  const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   
@@ -142,49 +130,15 @@ export default function Dashboard() {
 
   useEffect(() => {
     axiosInstance
-    .get('user/portfolio', {})
+    .get('user/coin-history', {})
     .then((res) => {
-        setusercoins(res.data)
-        setpiechartData(res.data.map((i) => { return {"name": i.name, "value": i.value}}))
+        setCoinChartData(res.data.map((i) => { return {"period": i.snapshot, "price": i.price}}))
     })
     .catch((e) =>
         console.log("There was a problem" + e)
     );
   }, [])
 
-  useEffect(() => {
-      let aux = 0
-      usercoins.forEach((e) => {
-        aux += e.value
-      })
-      let n = aux.toFixed(2)
-      settotalBalance(n)
-  }, [usercoins])
-
-   
-  useEffect(() => {
-    for(let i=0; i<100; i++)
-    {
-    window.clearInterval(i);
-    }
-  })
-  
-  let intervalID
-  useEffect(() => {
-    intervalID = setInterval(updateCoins,25000);
-  })
-
-  function updateCoins(){
-    axiosInstance
-      .get('user/portfolio', {})
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((e) =>
-        clearInterval(intervalID)
-      );
-  }
- 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -228,29 +182,11 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
+            <Grid item xs={12} md={12} lg={12}>
               <Paper className={fixedHeightPaper}>
-                <CustomPieChart  data={piechartData}/>
+                <CoinChart data = {coinChartData}/>
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Balance balance ={totalBalance} showBalance={showBalance} handleBalance={() => setshowBalance(!showBalance)}/>
-              </Paper>
-            </Grid>
-            {/* Coins */}
-            {showBalance && 
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                  <EnhancedTable
-                  headers ={portfolioHeaders}
-                  products ={usercoins}
-                  clickOnCell={ () => null} />
-                </Paper>
-              </Grid>
-            }
           </Grid>
           <Box pt={4}>
             <Copyright />

@@ -3,7 +3,6 @@ import { Treemap, ResponsiveContainer } from 'recharts';
 import Title from './Title';
 
 export default class TreeChart extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/simple-treemap-r5o4e';
 
   render() {
     return (

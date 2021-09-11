@@ -14,12 +14,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axiosInstance from '../axios';
-import Balance from './Balance';
-import EnhancedTable from './EnhancedTable';
 import Header from './Header';
-import CustomPieChart from './PieChart';
 import MainListItems from './MainListItems';
 import TreeChart from './TreeCharts';
 function Copyright() {
@@ -34,13 +30,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-const portfolioHeaders = [
-    { id: "name",numeric: false,disablePadding: true,label: "Name"},
-    { id: "amount",numeric: false,disablePadding: true,label: "Amount"},
-    { id: "price", numeric: false, disablePadding: false, label: "Price" },
-    { id: "value", numeric: true, disablePadding: false, label: "Value" },
-    ];
 
 const drawerWidth = 240;
 
@@ -123,11 +112,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TotalBalances() {
-  const [usercoins, setusercoins] = useState([])
-  const [totalBalance, settotalBalance] = useState(0)
   const [treeChartData, setTreeChartData] = useState([])
  
-  const history = useHistory();
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   
@@ -149,15 +135,6 @@ export default function TotalBalances() {
         console.log("There was a problem" + e)
     );
   }, [])
-
-  useEffect(() => {
-      let aux = 0
-      usercoins.forEach((e) => {
-        aux += e.value
-      })
-      let n = aux.toFixed(2)
-      settotalBalance(n)
-  }, [usercoins])
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
