@@ -18,7 +18,9 @@ import axiosInstance from '../axios';
 import CoinChart from './CoinChart';
 import Header from './Header';
 import MainListItems from './MainListItems';
-
+import Title from './Title';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 
 
 function Copyright() {
@@ -116,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TotalBalances() {
   const [coinChartData, setCoinChartData] = useState([])
- 
+  const [coins, setCoins] = useState([])
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   
@@ -127,6 +129,22 @@ export default function TotalBalances() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleChange = (e) =>{
+    //aca iria el api call que busca esa coin especifica para pasarle a setCoinChartData
+    console.log(e.target.value)
+   }
+
+  useEffect(() => {
+    axiosInstance
+    .get('user/portfolio', {})
+    .then((res) => {
+        setCoins(res.data.map((i) => { return  (<option>{i.name}</option>)}))
+    })
+    .catch((e) =>
+        console.log("There was a problem" + e)
+    );
+  }, [])
 
   useEffect(() => {
     axiosInstance
@@ -144,10 +162,8 @@ export default function TotalBalances() {
   return (
     <React.Fragment>
     <Header/>
-    <div className={classes.root}>
-      
+    <div className={classes.root}>      
       <CssBaseline />
-      
       <Drawer
         variant="permanent"
         classes={{
@@ -183,7 +199,15 @@ export default function TotalBalances() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={12} lg={12}>
-              <Paper className={fixedHeightPaper}>
+              <Paper className={fixedHeightPaper}> 
+                <Title>Price Chart</Title>
+                <br/>
+                <InputLabel htmlFor="grouped-native-select">Select Coin</InputLabel>
+                <Select native defaultValue="" id="grouped-native-select" onChange={handleChange}>
+                    <option value="" />
+                    {coins}
+                </Select>
+                <br/>
                 <CoinChart data = {coinChartData}/>
               </Paper>
             </Grid>
