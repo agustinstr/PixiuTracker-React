@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
+    height: '1000vh',
     overflow: 'auto',
   },
   container: {
@@ -112,15 +112,33 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 340,
+    height: 600,
   },
 }));
+
+
 
 export default function TotalBalances() {
   const [coinChartData, setCoinChartData] = useState([])
   const [coins, setCoins] = useState([])
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+
+  let intervalID
+  useEffect(() => {
+    intervalID = setInterval(updateCoins,250000);
+  })
+
+  function updateCoins(){
+    axiosInstance
+      .get('user/snapshots', {})
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((e) =>
+        clearInterval(intervalID)
+      );
+  }
   
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -131,7 +149,14 @@ export default function TotalBalances() {
   };
 
   const handleChange = (e) =>{
-    //aca iria el api call que busca esa coin especifica para pasarle a setCoinChartData
+    axiosInstance
+    .get('user/coin-history' + "?coinName=" + e.target.value, {})
+    .then((res) => {
+        setCoinChartData(res.data.map((i) => { return {"period": i.snapshot, "price": i.price}}))
+    })
+    .catch((e) =>
+        console.log("There was a problem" + e)
+    );
     console.log(e.target.value)
    }
 

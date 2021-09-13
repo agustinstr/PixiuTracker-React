@@ -176,7 +176,7 @@ export default function Dashboard() {
 
   function updateCoins(){
     axiosInstance
-      .get('user/portfolio', {})
+      .get('user/prices', {})
       .then((res) => {
         console.log(res)
       })
